@@ -10,7 +10,7 @@ const {
 routerPublicaciones.route("/").get(verPublicaciones).post(crearPublicacion);
 
 routerPublicaciones
-  .route(":id")
+  .route("/:id")
   .get(verPublicacion)
   .put(editarPublicacion)
   .delete(eliminarPublicacion);

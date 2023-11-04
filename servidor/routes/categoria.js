@@ -10,7 +10,7 @@ const {
 routerCategorias.route("/").get(verCategorias).post(crearCategoria);
 
 routerCategorias
-  .route(":id")
+  .route("/:id")
   .get(verCategoria)
   .put(editarCategoria)
   .delete(eliminarCategoria);

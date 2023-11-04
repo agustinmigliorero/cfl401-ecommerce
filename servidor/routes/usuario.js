@@ -10,7 +10,7 @@ const {
 routerUsuarios.route("/").get(verUsuarios).post(crearUsuario);
 
 routerUsuarios
-  .route(":id")
+  .route("/:id")
   .get(verUsuario)
   .put(editarUsuario)
   .delete(eliminarUsuario);

@@ -7,6 +7,9 @@ const {
 
 routerComentarios.route("/").post(crearComentario);
 
-routerComentarios.route(":id").put(editarComentario).delete(eliminarComentario);
+routerComentarios
+  .route("/:id")
+  .put(editarComentario)
+  .delete(eliminarComentario);
 
 module.exports = routerComentarios;

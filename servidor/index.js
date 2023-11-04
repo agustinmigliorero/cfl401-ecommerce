@@ -1,8 +1,12 @@
 const express = require("express");
 const app = express();
-const port = 3000;
+const puerto = 3000;
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const routerCategorias = require("./routes/categoria");
+const routerPublicaciones = require("./routes/publicacion");
+const routerComentarios = require("./routes/comentario");
+const routerUsuarios = require("./routes/usuario");
 
 //db conexion
 mongoose.connect("mongodb://127.0.0.1:27017/cfl-ecommerce", {
