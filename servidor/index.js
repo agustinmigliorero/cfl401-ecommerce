@@ -45,6 +45,13 @@ app.use("/publicaciones", routerPublicaciones);
 app.use("/comentarios", routerComentarios);
 //rutas
 
+//error handler
+app.use((err, req, res, next) => {
+  console.log(err);
+  res.status(500).json({ error: err.message });
+});
+//error handler
+
 app.listen(puerto, () => {
   console.log(`Servidor corriendo en el puerto ${puerto}`);
 });

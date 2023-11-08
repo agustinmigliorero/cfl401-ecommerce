@@ -6,13 +6,18 @@ const {
   editarCategoria,
   eliminarCategoria,
 } = require("../controllers/categoria");
+const { validarCategoria } = require("../validations/validaciones");
+const catchAsync = require("../utils/catchAsync");
 
-routerCategorias.route("/").get(verCategorias).post(crearCategoria);
+routerCategorias
+  .route("/")
+  .get(catchAsync(verCategorias))
+  .post(validarCategoria, catchAsync(crearCategoria));
 
 routerCategorias
   .route("/:id")
-  .get(verCategoria)
-  .put(editarCategoria)
-  .delete(eliminarCategoria);
+  .get(catchAsync(verCategoria))
+  .put(catchAsync(editarCategoria))
+  .delete(catchAsync(eliminarCategoria));
 
 module.exports = routerCategorias;

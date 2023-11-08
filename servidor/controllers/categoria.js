@@ -8,7 +8,7 @@ const verCategorias = async (req, res) => {
 
 const verCategoria = async (req, res) => {
   const { id } = req.params;
-  const categoria = findById(id);
+  const categoria = findById(id).populate("publicaciones");
   res.json(categoria);
 };
 
@@ -29,10 +29,7 @@ const editarCategoria = async (req, res) => {
 const eliminarCategoria = async (req, res) => {
   const { id } = req.params;
   const categoria = await Categoria.findByIdAndDelete(id);
-  await Publicacion.findManyAndUpdate(
-    { categoria: id },
-    { $pull: { categoria: id } }
-  );
+  await Publicacion.updateMany({ categoria: id }, { $pull: { categoria: id } });
   res.json({ msg: "Categoria eliminada", categoria });
 };
 
