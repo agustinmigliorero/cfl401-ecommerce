@@ -7,6 +7,10 @@ const routerCategorias = require("./routes/categoria");
 const routerPublicaciones = require("./routes/publicacion");
 const routerComentarios = require("./routes/comentario");
 const routerUsuarios = require("./routes/usuario");
+const session = require("express-session");
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+const Usuario = require("./models/usuario.js");
 
 //db conexion
 mongoose.connect("mongodb://127.0.0.1:27017/cfl-ecommerce", {
@@ -18,14 +22,12 @@ const db = mongoose.connection;
 
 db.on("error", (err) => console.log(err));
 db.once("open", () => console.log("Base de datos conectada!"));
-
 //db conexion
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 //cors
-
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
@@ -35,8 +37,28 @@ app.use((req, res, next) => {
   );
   next();
 });
-
 //cors
+
+//session y passport
+app.use(
+  session({
+    secret: "salt",
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+      httpOnly: true,
+    },
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(Usuario.authenticate()));
+
+passport.serializeUser(Usuario.serializeUser());
+passport.deserializeUser(Usuario.deserializeUser());
+//session y passport
 
 //rutas
 app.use("/usuarios", routerUsuarios);
