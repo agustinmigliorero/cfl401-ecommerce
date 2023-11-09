@@ -3,9 +3,10 @@ const Joi = require("joi");
 const usuarioSchema = Joi.object({
   nombre: Joi.string().required(),
   email: Joi.string().email().required(),
-  password: Joi.string().required(),
+  apellido: Joi.string().required(),
   publicaciones: Joi.array(),
   comentarios: Joi.array(),
+  password: Joi.string().required(),
 });
 
 const publicacionSchema = Joi.object({

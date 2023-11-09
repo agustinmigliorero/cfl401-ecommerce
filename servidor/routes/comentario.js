@@ -6,14 +6,15 @@ const {
 } = require("../controllers/comentario");
 const { validarComentario } = require("../validations/validaciones");
 const catchAsync = require("../utils/catchAsync");
+const { estaLogeado, esAutorComentario } = require("../middlewares");
 
 routerComentarios
   .route("/")
-  .post(validarComentario, catchAsync(crearComentario));
+  .post(estaLogeado, validarComentario, catchAsync(crearComentario));
 
 routerComentarios
   .route("/:id")
-  .put(catchAsync(editarComentario))
-  .delete(catchAsync(eliminarComentario));
+  .put(estaLogeado, esAutorComentario, catchAsync(editarComentario))
+  .delete(estaLogeado, esAutorComentario, catchAsync(eliminarComentario));
 
 module.exports = routerComentarios;

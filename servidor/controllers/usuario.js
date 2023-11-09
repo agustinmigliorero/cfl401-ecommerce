@@ -16,10 +16,21 @@ const verUsuario = async (req, res, next) => {
 };
 
 const crearUsuario = async (req, res) => {
-  const { nombre, email, password } = req.body;
-  const usuario = new Usuario({ nombre, email, password });
-  await usuario.save();
-  res.json({ msg: "Usuario creado", usuario });
+  const { nombre, email, apellido, password } = req.body;
+  const usuario = new Usuario({
+    nombre,
+    email,
+    apellido,
+    username: email,
+  });
+  const nuevoUsuario = await Usuario.register(usuario, password);
+
+  req.login(nuevoUsuario, (err) => {
+    if (err) {
+      return next(err);
+    }
+    res.json({ msg: "Usuario creado", nuevoUsuario });
+  });
 };
 
 const editarUsuario = async (req, res) => {
@@ -41,10 +52,41 @@ const eliminarUsuario = async (req, res) => {
   res.json({ msg: "Usuario eliminado", usuario });
 };
 
+const loginUsuario = async (req, res) => {
+  const { username } = req.body;
+  const usuario = await Usuario.findOne({ username });
+  res.json(usuario);
+};
+
+const logoutUsuario = async (req, res) => {
+  req.logout(function (err) {
+    if (err) {
+      return next(err);
+    }
+  });
+  res.json({ msg: "Sesión cerrada" });
+};
+
+const usuarioLogeado = async (req, res) => {
+  if (req.user) {
+    res.json(req.user);
+  } else {
+    res.json({ msg: "No hay usuario logeado" });
+  }
+};
+
+const errorLogin = async (req, res) => {
+  res.status(401).json({ error: true, msg: "Usuario o contraseña incorrecta" });
+};
+
 module.exports = {
   verUsuarios,
   verUsuario,
   crearUsuario,
   editarUsuario,
   eliminarUsuario,
+  loginUsuario,
+  logoutUsuario,
+  usuarioLogeado,
+  errorLogin,
 };
