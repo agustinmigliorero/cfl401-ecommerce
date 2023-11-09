@@ -3,8 +3,7 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import Inicio from './paginas/Inicio'
-import VerUsuario from './paginas/usuarios/VerUsuario'
-import VerUsuarios from './paginas/usuarios/VerUsuarios'
+import IndexUsuarios from './paginas/usuarios/IndexUsuarios.jsx'
 import Boton from './componentes/Boton'
 
 function App() {
@@ -16,11 +15,9 @@ function App() {
   return (
     <>
       <Boton texto="Inicio" eventoClick={() => {eventoClick("Inicio")}} />
-      <Boton texto="VerUsuario" eventoClick={() => {eventoClick("VerUsuario")}} />
-      <Boton texto="VerUsuarios" eventoClick={() => {eventoClick("VerUsuarios")}} />
+      <Boton texto="Ver Usuarios" eventoClick={() => {eventoClick("IndexUsuarios")}} />
       {pagina === "Inicio" && <Inicio />}
-      {pagina === "VerUsuario" && <VerUsuario />}
-      {pagina === "VerUsuarios" && <VerUsuarios />}
+      {pagina === "IndexUsuarios" && <IndexUsuarios />}
     </>
   )
 }
