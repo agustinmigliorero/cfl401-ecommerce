@@ -1,11 +1,13 @@
-import { useState } from 'react'
+import { useState } from "react";
+import Navbar from "../componentes/Navbar.jsx";
 
 function Inicio() {
-return (
+  return (
     <>
-        <h1>Este es el inicio!</h1>
+      <Navbar paginaActiva="Inicio" />
+      <h1>Este es el inicio!</h1>
     </>
-)
+  );
 }
 
 export default Inicio;

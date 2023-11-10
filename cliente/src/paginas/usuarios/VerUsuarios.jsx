@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Boton from "../../componentes/Boton";
+import { Link } from "react-router-dom";
 
 function renderizarTablas(data) {
   return data.map((usuario, index) => (
@@ -17,19 +18,15 @@ function renderizarTablas(data) {
         {Array.isArray(usuario.comentarios) ? usuario.comentarios.length : 0}
       </td>
       <td>
-        <Boton
-          texto="Volver"
-          eventoClick={() => {
-            props.setPagina("VerUsuario");
-            props.setIdUsuario(usuario._id);
-          }}
-        />
+        <Link className="nav-link" to={`/usuarios/${usuario._id}`}>
+          <Boton texto="Ver usuario" />
+        </Link>
       </td>
     </tr>
   ));
 }
 
-function VerUsuarios(props) {
+function VerUsuarios() {
   const [usuarios, setUsuarios] = useState([{}]);
 
   async function cargarUsuarios() {
