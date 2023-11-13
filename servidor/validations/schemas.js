@@ -26,6 +26,7 @@ const comentarioSchema = Joi.object({
 
 const categoriaSchema = Joi.object({
   nombre: Joi.string().required(),
+  descripcion: Joi.string().required(),
   publicaciones: Joi.array(),
 });
 

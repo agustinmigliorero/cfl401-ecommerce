@@ -2,7 +2,7 @@ import Navbar from "../../componentes/Navbar";
 import { useState } from "react";
 import Boton from "../../componentes/Boton";
 
-function CrearUsuario() {
+function CrearUsuario({ setUsuarioLogeado }) {
   const [objUsuario, setObjUsuario] = useState({
     nombre: "",
     apellido: "",
@@ -19,12 +19,30 @@ function CrearUsuario() {
   };
 
   const enviarFormulario = () => {
-    console.log(objUsuario);
+    fetch("http://localhost:3000/usuarios", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify(objUsuario),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        setUsuarioLogeado(data);
+        if (data.logeado) {
+          navigate("/");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
     <>
-      <Navbar paginaActiva="Usuarios" />
       <h1>Crear un usuario!</h1>
       <div>
         <input

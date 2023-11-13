@@ -4,7 +4,6 @@ import Navbar from "../componentes/Navbar.jsx";
 function Inicio() {
   return (
     <>
-      <Navbar paginaActiva="Inicio" />
       <h1>Este es el inicio!</h1>
     </>
   );

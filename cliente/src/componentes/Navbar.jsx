@@ -1,13 +1,72 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useState } from "react";
 
-function Navbar(props) {
+function Navbar({ usuarioLogeado }) {
+  console.log(usuarioLogeado);
+  const linksLogeado = () => {
+    return (
+      <>
+        <li className="nav-item">
+          <NavLink
+            className={`nav-link ${({ isActive }) =>
+              isActive ? "active-style" : ""}`}
+            aria-current="page"
+            to={`/usuarios/${usuarioLogeado.usuario._id}`}
+            end
+          >
+            {usuarioLogeado.usuario.nombre}
+          </NavLink>
+        </li>
+        <li className="nav-item">
+          <NavLink
+            className={`nav-link ${({ isActive }) =>
+              isActive ? "active-style" : ""}`}
+            aria-current="page"
+            to="/usuarios/logout"
+            end
+          >
+            Desconectarse
+          </NavLink>
+        </li>
+      </>
+    );
+  };
+
+  const linksDeslogeado = () => {
+    return (
+      <>
+        <li className="nav-item">
+          <NavLink
+            className={`nav-link ${({ isActive }) =>
+              isActive ? "active-style" : ""}`}
+            aria-current="page"
+            to="/usuarios/login"
+            end
+          >
+            Iniciar Sesion
+          </NavLink>
+        </li>
+        <li className="nav-item">
+          <NavLink
+            className={`nav-link ${({ isActive }) =>
+              isActive ? "active-style" : ""}`}
+            aria-current="page"
+            to="/usuarios/registrarse"
+            end
+          >
+            Registrate
+          </NavLink>
+        </li>
+      </>
+    );
+  };
+
   return (
     <nav className="navbar navbar-expand-lg navbar-fondo">
       <div className="container-fluid">
-        <Link className="navbar-brand" to="#">
+        <NavLink className="navbar-brand" to="#">
           E-Commerce CFL401
-        </Link>
+        </NavLink>
         <button
           className="navbar-toggler"
           type="button"
@@ -22,26 +81,40 @@ function Navbar(props) {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <Link
-                className={`nav-link ${
-                  props.paginaActiva === "Inicio" ? "active" : ""
-                }`}
+              <NavLink
+                className={`nav-link ${({ isActive }) =>
+                  isActive ? "active-style" : ""}`}
                 aria-current="page"
                 to="/"
               >
                 Inicio
-              </Link>
+              </NavLink>
             </li>
             <li className="nav-item">
-              <Link
-                className={`nav-link ${
-                  props.paginaActiva === "Usuarios" ? "active" : ""
-                }`}
+              <NavLink
+                className={`nav-link ${({ isActive }) =>
+                  isActive ? "active-style" : ""}`}
+                aria-current="page"
                 to="/usuarios"
+                end
               >
                 Usuarios
-              </Link>
+              </NavLink>
             </li>
+            <li className="nav-item">
+              <NavLink
+                className={`nav-link ${({ isActive }) =>
+                  isActive ? "active-style" : ""}`}
+                aria-current="page"
+                to="/categorias"
+                end
+              >
+                Categorias
+              </NavLink>
+            </li>
+          </ul>
+          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+            {usuarioLogeado.logeado ? linksLogeado() : linksDeslogeado()}
           </ul>
         </div>
       </div>
