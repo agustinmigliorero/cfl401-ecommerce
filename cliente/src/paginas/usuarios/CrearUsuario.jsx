@@ -1,6 +1,7 @@
 import Navbar from "../../componentes/Navbar";
 import { useState } from "react";
 import Boton from "../../componentes/Boton";
+import { useNavigate } from "react-router-dom";
 
 function CrearUsuario({ setUsuarioLogeado }) {
   const [objUsuario, setObjUsuario] = useState({
@@ -9,6 +10,8 @@ function CrearUsuario({ setUsuarioLogeado }) {
     email: "",
     password: "",
   });
+
+  const navigate = useNavigate();
 
   const handleChange = (evento) => {
     const inputACambiar = evento.target.name;

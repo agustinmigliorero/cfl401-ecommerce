@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Card from "../../componentes/Card";
 
 function VerCategorias() {
-  const [categorias, setCategorias] = useState([]);
+  const [categorias, setCategorias] = useState([{}]);
 
   async function cargarCategorias() {
     const respuesta = await fetch("http://localhost:3000/categorias");
@@ -14,10 +14,10 @@ function VerCategorias() {
     cargarCategorias();
   }, []);
 
-  const contenido = categorias.map((categoria) => {
+  const contenido = categorias.map((categoria, index) => {
     return (
       <Card
-        key={categoria._id}
+        key={categoria._id + index}
         titulo={categoria.titulo}
         textoCard={categoria.descripcion}
         textoBoton="Ver publicaciones"

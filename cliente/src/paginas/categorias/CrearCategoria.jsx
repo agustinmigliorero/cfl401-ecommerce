@@ -37,13 +37,6 @@ function CrearCategoria({ usuarioLogeado }) {
     });
   };
 
-  useEffect(() => {
-    console.log(usuarioLogeado);
-    if (!usuarioLogeado.logeado) {
-      navigate("/usuarios/login");
-    }
-  }, []);
-
   return (
     <>
       <h1>Crear categoria</h1>
@@ -56,11 +49,11 @@ function CrearCategoria({ usuarioLogeado }) {
         />
         <input
           type="text"
-          placeholder="Nombre"
+          placeholder="Texto"
           onChange={handleChange}
-          name="nombre"
+          name="descripcion"
         />
-        <Boton onClick={enviarFormulario}>Crear</Boton>
+        <Boton eventoClick={enviarFormulario} texto="Crear categoria" />
       </div>
     </>
   );

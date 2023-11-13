@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import Card from "../../componentes/Card";
+import { useParams } from "react-router-dom";
 
 function VerCategoria() {
-  const [categoria, setCategoria] = useState({});
+  const [categoria, setCategoria] = useState({ publicaciones: [] });
   const { id } = useParams();
 
   async function cargarCategoria(id) {
@@ -13,7 +14,7 @@ function VerCategoria() {
 
   useEffect(() => {
     cargarCategoria(id);
-  });
+  }, []);
 
   const contenido = categoria.publicaciones.map((publicacion) => {
     return (

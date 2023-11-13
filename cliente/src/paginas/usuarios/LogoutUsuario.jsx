@@ -18,7 +18,7 @@ function LogoutUsuario({ setUsuarioLogeado }) {
 
   useEffect(() => {
     desconectarUsuario();
-  });
+  }, []);
 
   return (
     <>

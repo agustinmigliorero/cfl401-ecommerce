@@ -6,7 +6,7 @@ const usuarioSchema = new Schema({
   nombre: { type: String },
   apellido: { type: String },
   email: { type: String },
-  esAdmin: { type: Boolean, default: true },
+  esAdmin: { type: Boolean, default: false },
   publicaciones: [{ type: Schema.Types.ObjectId, ref: "Publicacion" }],
   comentarios: [{ type: Schema.Types.ObjectId, ref: "Comentario" }],
 });

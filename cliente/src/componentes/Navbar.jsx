@@ -28,6 +28,17 @@ function Navbar({ usuarioLogeado }) {
             Desconectarse
           </NavLink>
         </li>
+        <li className="nav-item">
+          <NavLink
+            className={`nav-link ${({ isActive }) =>
+              isActive ? "active-style" : ""}`}
+            aria-current="page"
+            to="/categorias/crear-categoria"
+            end
+          >
+            Crear Categoria
+          </NavLink>
+        </li>
       </>
     );
   };

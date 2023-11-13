@@ -8,13 +8,13 @@ const verCategorias = async (req, res) => {
 
 const verCategoria = async (req, res) => {
   const { id } = req.params;
-  const categoria = findById(id).populate("publicaciones");
+  const categoria = await Categoria.findById(id).populate("publicaciones");
   res.json(categoria);
 };
 
 const crearCategoria = async (req, res) => {
-  const { nombre } = req.body;
-  const categoria = new Categoria({ nombre });
+  const { nombre, descripcion } = req.body;
+  const categoria = new Categoria({ nombre, descripcion });
   await categoria.save();
   res.json({ msg: "Categoria creada", categoria });
 };

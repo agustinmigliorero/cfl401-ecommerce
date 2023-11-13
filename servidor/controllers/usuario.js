@@ -29,7 +29,7 @@ const crearUsuario = async (req, res) => {
     if (err) {
       return next(err);
     }
-    res.json({ login: true, usuario: nuevoUsuario });
+    res.json({ logeado: true, usuario: nuevoUsuario });
   });
 };
 
