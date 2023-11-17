@@ -2,10 +2,13 @@ import { NavLink } from "react-router-dom";
 
 function Navbar() {
   return (
-    <nav className="navbar navbar-expand-lg bg-body-tertiary">
+    <nav
+      className="navbar navbar-expand-lg "
+      style={{ backgroundColor: "#fff159" }}
+    >
       <div className="container-fluid">
         <a className="navbar-brand" href="/titulo">
-          Navbar
+          CFL 401
         </a>
         <button
           className="navbar-toggler"
