@@ -11,7 +11,10 @@ import LogoutUsuario from "./paginas/usuarios/LogoutUsuario.jsx";
 import VerCategorias from "./paginas/categorias/VerCategorias.jsx";
 import VerCategoria from "./paginas/categorias/VerCategoria.jsx";
 import CrearCategoria from "./paginas/categorias/CrearCategoria.jsx";
-import { AuthProvider, useAuth } from "./UseAuth.jsx";
+import VerPublicaciones from "./paginas/publicaciones/VerPublicaciones.jsx";
+import VerPublicacion from "./paginas/publicaciones/VerPublicacion.jsx";
+import CrearPublicacion from "./paginas/publicaciones/CrearPublicacion.jsx";
+import { useAuth } from "./UseAuth.jsx";
 
 function RutaProtegidaLogeado({ children }) {
   const { usuarioLogeado, cargando } = useAuth();
@@ -19,7 +22,11 @@ function RutaProtegidaLogeado({ children }) {
   if (cargando) {
     return "";
   }
-  return usuarioLogeado.logeado ? children : <Navigate to="/usuarios/login" />;
+  return usuarioLogeado.logeado ? (
+    children
+  ) : (
+    <Navigate to="/usuarios/login" state={{ alerta: "No estas logeado!" }} />
+  );
 }
 
 function RutaProtegidaAdmin({ children }) {
@@ -31,38 +38,23 @@ function RutaProtegidaAdmin({ children }) {
   return usuarioLogeado.logeado && usuarioLogeado.usuario.esAdmin ? (
     children
   ) : (
-    <Navigate to="/usuarios/login" />
+    <Navigate
+      to="/usuarios/login"
+      state={{ alerta: "No tenes permisos para hacer eso!" }}
+    />
   );
 }
 
-function RutaProtegidaAutor({ children }) {}
-
 function App() {
   const { usuarioLogeado, setUsuarioLogeado } = useAuth();
-  // const [usuarioLogeado, setUsuarioLogeado] = useState({ logeado: false });
-
-  // async function fetchUsuarioLogeado() {
-  //   const respuesta = await fetch(
-  //     "http://localhost:3000/usuarios/usuario-logeado",
-  //     {
-  //       credentials: "include",
-  //     }
-  //   );
-  //   const usuario = await respuesta.json();
-  //   setUsuarioLogeado(usuario);
-  // }
-
-  // useEffect(() => {
-  //   fetchUsuarioLogeado();
-  //   console.log(usuarioLogeado);
-  // }, []);
 
   return (
-    // <AuthProvider>
     <>
       <Navbar usuarioLogeado={usuarioLogeado} />
       <Routes>
         <Route path="/" element={<Inicio />} />
+
+        {/* RUTAS USUARIOS */}
         <Route path="/usuarios" element={<VerUsuarios />} />
 
         <Route
@@ -78,7 +70,9 @@ function App() {
           element={<LogoutUsuario setUsuarioLogeado={setUsuarioLogeado} />}
         />
         <Route path="/usuarios/:id" element={<VerUsuario />} />
+        {/* RUTAS USUARIOS */}
 
+        {/* RUTAS CATEGORIAS */}
         <Route path="/categorias" element={<VerCategorias />} />
         <Route
           path="/categorias/crear-categoria"
@@ -89,9 +83,22 @@ function App() {
           }
         />
         <Route path="/categorias/:id" element={<VerCategoria />} />
+        {/* RUTAS CATEGORIAS */}
+
+        {/* RUTAS PUBLICACIONES */}
+        <Route path="/publicaciones" element={<VerPublicaciones />} />
+        <Route
+          path="/publicaciones/crear-publicacion"
+          element={
+            <RutaProtegidaLogeado>
+              <CrearPublicacion />
+            </RutaProtegidaLogeado>
+          }
+        />
+        <Route path="/publicaciones/:id" element={<VerPublicacion />} />
+        {/* RUTAS PUBLICACIONES */}
       </Routes>
     </>
-    // </AuthProvider>
   );
 }
 

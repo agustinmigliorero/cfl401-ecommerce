@@ -12,7 +12,7 @@ const { estaLogeado, esAutorPublicacion } = require("../middlewares");
 
 routerPublicaciones
   .route("/")
-  .get(estaLogeado, catchAsync(verPublicaciones))
+  .get(catchAsync(verPublicaciones))
   .post(estaLogeado, validarPublicacion, catchAsync(crearPublicacion));
 
 routerPublicaciones

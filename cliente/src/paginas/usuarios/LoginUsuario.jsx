@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Boton from "../../componentes/Boton";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function LoginUsuario({ setUsuarioLogeado }) {
   const [objUsuario, setObjUsuario] = useState({
@@ -9,6 +9,7 @@ function LoginUsuario({ setUsuarioLogeado }) {
   });
 
   const navigate = useNavigate();
+  const { state } = useLocation();
 
   const enviarLogin = () => {
     fetch("http://localhost:3000/usuarios/login", {
@@ -43,22 +44,46 @@ function LoginUsuario({ setUsuarioLogeado }) {
 
   return (
     <>
-      <h1>Login</h1>
-      <div>
+      {state ? (
+        <h2
+          style={{
+            backgroundColor: "red",
+            color: "white",
+            margin: "auto",
+            textAlign: "center",
+          }}
+        >
+          {state.alerta}
+        </h2>
+      ) : (
+        ""
+      )}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          width: "30%",
+          margin: "auto",
+          textAlign: "center",
+        }}
+      >
+        <h1>Login</h1>
         <input
           type="text"
           placeholder="Usuario"
           onChange={handleChange}
           value={objUsuario.username}
           name="username"
-        />
+        />{" "}
+        <br />
         <input
           type="password"
           placeholder="Contraseña"
           onChange={handleChange}
           value={objUsuario.password}
           name="password"
-        />
+        />{" "}
+        <br />
         <Boton texto="Login" eventoClick={enviarLogin} />
       </div>
     </>
