@@ -5,7 +5,7 @@ const publicacionSchema = new Schema({
   titulo: { type: String },
   texto: { type: String },
   autor: { type: Schema.Types.ObjectId, ref: "Usuario" },
-  categorias: [{ type: Schema.Types.ObjectId, ref: "Categoria" }],
+  categoria: { type: Schema.Types.ObjectId, ref: "Categoria" },
   comentarios: [{ type: Schema.Types.ObjectId, ref: "Comentario" }],
 });
 

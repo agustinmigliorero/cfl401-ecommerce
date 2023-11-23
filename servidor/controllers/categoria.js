@@ -29,7 +29,7 @@ const editarCategoria = async (req, res) => {
 const eliminarCategoria = async (req, res) => {
   const { id } = req.params;
   const categoria = await Categoria.findByIdAndDelete(id);
-  await Publicacion.updateMany({ categoria: id }, { $pull: { categoria: id } });
+  await Publicacion.deleteMany({ categoria: id });
   res.json({ msg: "Categoria eliminada", categoria });
 };
 

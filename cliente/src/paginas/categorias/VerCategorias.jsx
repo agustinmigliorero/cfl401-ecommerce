@@ -18,7 +18,7 @@ function VerCategorias() {
     return (
       <Card
         key={categoria._id + index}
-        titulo={categoria.titulo}
+        titulo={categoria.nombre}
         textoCard={categoria.descripcion}
         textoBoton="Ver publicaciones"
         linkBoton={`/categorias/${categoria._id}`}

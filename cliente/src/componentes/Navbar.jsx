@@ -2,7 +2,6 @@ import { NavLink } from "react-router-dom";
 import { useState } from "react";
 
 function Navbar({ usuarioLogeado }) {
-  console.log(usuarioLogeado);
   const linksLogeado = () => {
     return (
       <>
@@ -121,6 +120,17 @@ function Navbar({ usuarioLogeado }) {
                 end
               >
                 Categorias
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink
+                className={`nav-link ${({ isActive }) =>
+                  isActive ? "active-style" : ""}`}
+                aria-current="page"
+                to="/publicaciones"
+                end
+              >
+                Publicaciones
               </NavLink>
             </li>
           </ul>

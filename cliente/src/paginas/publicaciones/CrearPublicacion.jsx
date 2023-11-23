@@ -5,14 +5,13 @@ import Boton from "../../componentes/Boton";
 
 function CrearPublicacion() {
   const navigate = useNavigate();
-  const { usuarioLogeado } = useAuth();
   const [publicacion, setPublicacion] = useState({
     titulo: "",
     texto: "",
-    autor: usuarioLogeado.usuario._id,
-    categoria: [""],
+    categoria: "",
   });
   const [categorias, setCategorias] = useState([{}]);
+  const [usuario, setUsuario] = useState({});
 
   const handleChange = (event) => {
     const inputACambiar = event.target.name;
@@ -20,6 +19,7 @@ function CrearPublicacion() {
     setPublicacion((dataActual) => {
       return { ...publicacion, [inputACambiar]: valorNuevo };
     });
+    console.log(publicacion);
   };
 
   async function fetchCrearPublicacion() {
@@ -29,21 +29,47 @@ function CrearPublicacion() {
         "Content-Type": "application/json",
       },
       credentials: "include",
-      body: JSON.stringify(publicacion),
-    }).then((res) => {
-      navigate("/publicaciones", { state: { alerta: "Publicacion Creada!" } });
-    });
+      body: JSON.stringify({ ...publicacion, autor: usuario.usuario._id }),
+    })
+      .then((res) => {
+        console.log({ ...publicacion, autor: usuario.usuario._id });
+        navigate("/publicaciones", {
+          state: { alerta: "Publicacion Creada!" },
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   async function fetchCargarCategorias() {
     const response = await fetch("http://localhost:3000/categorias");
     const categoriasFetch = await response.json();
+    setPublicacion((dataActual) => {
+      return { ...publicacion, categoria: categoriasFetch[0]._id };
+    });
     setCategorias(categoriasFetch);
   }
 
-  useEffect(() => {
+  async function fetchCargarAutor() {
+    const response = await fetch(
+      "http://localhost:3000/usuarios/usuario-logeado",
+      {
+        credentials: "include",
+      }
+    );
+    const usuarioFetch = await response.json();
+    setUsuario(usuarioFetch);
+  }
+
+  async function cargarFetch() {
     fetchCargarCategorias();
-  });
+    fetchCargarAutor();
+  }
+
+  useEffect(() => {
+    cargarFetch();
+  }, []);
 
   const opciones = categorias.map((categoria) => {
     return (
@@ -71,7 +97,11 @@ function CrearPublicacion() {
           value={publicacion.texto}
           onChange={handleChange}
         />
-        <select name="categoria" onChange={handleChange}>
+        <select
+          name="categoria"
+          value={publicacion.categoria}
+          onChange={handleChange}
+        >
           {opciones}
         </select>
         <Boton texto="Crear Publicacion" eventoClick={fetchCrearPublicacion} />

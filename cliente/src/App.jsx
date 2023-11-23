@@ -78,7 +78,7 @@ function App() {
           path="/categorias/crear-categoria"
           element={
             <RutaProtegidaAdmin>
-              <CrearCategoria usuarioLogeado={usuarioLogeado} />
+              <CrearCategoria />
             </RutaProtegidaAdmin>
           }
         />
@@ -91,11 +91,14 @@ function App() {
           path="/publicaciones/crear-publicacion"
           element={
             <RutaProtegidaLogeado>
-              <CrearPublicacion />
+              <CrearPublicacion usuarioLogeado={usuarioLogeado} />
             </RutaProtegidaLogeado>
           }
         />
-        <Route path="/publicaciones/:id" element={<VerPublicacion />} />
+        <Route
+          path="/publicaciones/:idPublicacion"
+          element={<VerPublicacion />}
+        />
         {/* RUTAS PUBLICACIONES */}
       </Routes>
     </>
