@@ -4,7 +4,7 @@ const AuthContext = createContext();
 
 const useAuth = () => {
   const [usuarioLogeado, setUsuarioLogeado] = useState({
-    usuario: {},
+    usuario: { id: "", nombre: "", esAdmin: false },
     logeado: false,
   });
   const [cargando, setCargando] = useState(true);

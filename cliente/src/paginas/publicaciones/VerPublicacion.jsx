@@ -57,6 +57,26 @@ function VerPublicacion() {
       : (promedio / publicacion.comentarios.length).toFixed(2);
   }
 
+  function botonesBorrarYEditarPublicacion() {
+    if (usuarioLogeado.usuario) {
+      if (publicacion.autor._id === usuarioLogeado.usuario._id) {
+        return (
+          <>
+            <Link to={`/publicaciones/editar/${publicacion._id}`}>
+              <Boton texto="Editar" />
+            </Link>
+            <Boton
+              eventoClick={() => {
+                alert("TODAVIA NO SE PUEDE BORRAR");
+              }}
+              texto="Borrar"
+            />
+          </>
+        );
+      }
+    }
+  }
+
   return (
     <>
       <Link to={`/categorias/${publicacion.categoria._id}`}>
@@ -68,6 +88,7 @@ function VerPublicacion() {
       <h2>
         Puntaje promedio de la publicacion: <b>{calcularPromedioPuntaje()}</b>
       </h2>
+      {botonesBorrarYEditarPublicacion()}
       {usuarioLogeado.logeado ? (
         <CrearComentario fetchCrearComentario={fetchCrearComentario} />
       ) : (

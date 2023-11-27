@@ -11,6 +11,7 @@ import LogoutUsuario from "./paginas/usuarios/LogoutUsuario.jsx";
 import VerCategorias from "./paginas/categorias/VerCategorias.jsx";
 import VerCategoria from "./paginas/categorias/VerCategoria.jsx";
 import CrearCategoria from "./paginas/categorias/CrearCategoria.jsx";
+import EditarCategoria from "./paginas/categorias/EditarCategoria.jsx";
 import VerPublicaciones from "./paginas/publicaciones/VerPublicaciones.jsx";
 import VerPublicacion from "./paginas/publicaciones/VerPublicacion.jsx";
 import CrearPublicacion from "./paginas/publicaciones/CrearPublicacion.jsx";
@@ -83,6 +84,14 @@ function App() {
           }
         />
         <Route path="/categorias/:id" element={<VerCategoria />} />
+        <Route
+          path="/categorias/editar-categoria/:id"
+          element={
+            <RutaProtegidaAdmin>
+              <EditarCategoria />
+            </RutaProtegidaAdmin>
+          }
+        />
         {/* RUTAS CATEGORIAS */}
 
         {/* RUTAS PUBLICACIONES */}
