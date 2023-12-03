@@ -1,10 +1,11 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useAuth } from "../../UseAuth";
 import Boton from "../../componentes/Boton";
 import CrearComentario from "../../componentes/comentarios/CrearComentario";
 
 function VerPublicacion() {
+  const navigate = useNavigate();
   const { idPublicacion } = useParams();
   const [publicacion, setPublicacion] = useState({
     autor: {},
@@ -47,6 +48,27 @@ function VerPublicacion() {
       });
   }
 
+  function fetchBorrarPublicacion() {
+    let borrar = confirm("Estas seguro de borrar la publicacion?");
+    if (borrar) {
+      fetch(`http://localhost:3000/publicaciones/${publicacion._id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      })
+        .then((res) => {
+          navigate("/publicaciones", {
+            state: { alerta: "Publicacion Borrada!" },
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }
+
   function calcularPromedioPuntaje() {
     let promedio = 0;
     for (let i = 0; i < publicacion.comentarios.length; i++) {
@@ -62,15 +84,10 @@ function VerPublicacion() {
       if (publicacion.autor._id === usuarioLogeado.usuario._id) {
         return (
           <>
-            <Link to={`/publicaciones/editar/${publicacion._id}`}>
+            <Link to={`/publicaciones/editar-publicacion/${publicacion._id}`}>
               <Boton texto="Editar" />
             </Link>
-            <Boton
-              eventoClick={() => {
-                alert("TODAVIA NO SE PUEDE BORRAR");
-              }}
-              texto="Borrar"
-            />
+            <Boton eventoClick={fetchBorrarPublicacion} texto="Borrar" />
           </>
         );
       }

@@ -15,6 +15,7 @@ import EditarCategoria from "./paginas/categorias/EditarCategoria.jsx";
 import VerPublicaciones from "./paginas/publicaciones/VerPublicaciones.jsx";
 import VerPublicacion from "./paginas/publicaciones/VerPublicacion.jsx";
 import CrearPublicacion from "./paginas/publicaciones/CrearPublicacion.jsx";
+import EditarPublicacion from "./paginas/publicaciones/EditarPublicacion.jsx";
 import { useAuth } from "./UseAuth.jsx";
 
 function RutaProtegidaLogeado({ children }) {
@@ -107,6 +108,14 @@ function App() {
         <Route
           path="/publicaciones/:idPublicacion"
           element={<VerPublicacion />}
+        />
+        <Route
+          path="/publicaciones/editar-publicacion/:id"
+          element={
+            <RutaProtegidaLogeado>
+              <EditarPublicacion usuarioLogeado={usuarioLogeado} />
+            </RutaProtegidaLogeado>
+          }
         />
         {/* RUTAS PUBLICACIONES */}
       </Routes>
