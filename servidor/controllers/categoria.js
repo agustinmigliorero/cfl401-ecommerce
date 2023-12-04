@@ -21,8 +21,11 @@ const crearCategoria = async (req, res) => {
 
 const editarCategoria = async (req, res) => {
   const { id } = req.params;
-  const { nombre } = req.body;
-  const categoria = await Categoria.findByIdAndUpdate(id, { nombre });
+  const { nombre, descripcion } = req.body;
+  const categoria = await Categoria.findByIdAndUpdate(id, {
+    nombre,
+    descripcion,
+  });
   res.json({ msg: "Categoria actualizada", categoria });
 };
 

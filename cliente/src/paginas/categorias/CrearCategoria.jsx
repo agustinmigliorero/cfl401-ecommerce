@@ -4,7 +4,10 @@ import Boton from "../../componentes/Boton";
 
 function CrearCategoria({ usuarioLogeado }) {
   const navigate = useNavigate();
-  const [objCategoria, setObjCategoria] = useState({});
+  const [objCategoria, setObjCategoria] = useState({
+    nombre: "",
+    descripcion: "",
+  });
 
   const enviarFormulario = () => {
     fetch("http://localhost:3000/categorias", {
@@ -46,13 +49,18 @@ function CrearCategoria({ usuarioLogeado }) {
           placeholder="Nombre"
           onChange={handleChange}
           name="nombre"
+          value={objCategoria.nombre}
         />
-        <input
-          type="text"
-          placeholder="Texto"
-          onChange={handleChange}
+        <br />
+        <textarea
+          placeholder="Descripción"
           name="descripcion"
-        />
+          id=""
+          cols="70"
+          rows="6"
+          value={objCategoria.descripcion}
+          onChange={handleChange}
+        ></textarea>
         <Boton eventoClick={enviarFormulario} texto="Crear categoria" />
       </div>
     </>

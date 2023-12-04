@@ -21,6 +21,7 @@ function EditarCategoria() {
     setCategoria((dataActual) => {
       return { ...dataActual, [inputACambiar]: valorNuevo };
     });
+    console.log(categoria);
   }
 
   function enviarFormulario(e) {
