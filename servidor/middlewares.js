@@ -13,7 +13,10 @@ const estaLogeado = (req, res, next) => {
 const esAutorPublicacion = async (req, res, next) => {
   const { id } = req.params;
   const publicacion = await Publicacion.findById(id);
-  if (publicacion.autor === req.user._id || req.user.esAdmin) {
+  if (
+    publicacion.autor.toString() === req.user._id.toString() ||
+    req.user.esAdmin
+  ) {
     next();
   } else {
     res.status(403).json({ msg: "No tienes permisos para hacer eso" });
@@ -23,7 +26,10 @@ const esAutorPublicacion = async (req, res, next) => {
 const esAutorComentario = async (req, res, next) => {
   const { id } = req.params;
   const comentario = await Comentario.findById(id);
-  if (comentario.autor === req.user._id || req.user.esAdmin) {
+  if (
+    comentario.autor.toString() === req.user._id.toString() ||
+    req.user.esAdmin
+  ) {
     next();
   } else {
     res.status(403).json({ msg: "No tienes permisos para hacer eso" });

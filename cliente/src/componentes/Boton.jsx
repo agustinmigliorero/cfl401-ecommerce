@@ -1,7 +1,9 @@
 function Boton(props) {
-    return (
-        <button style={{background: "#ffaaaa"}} onClick={props.eventoClick}>{props.texto}</button>
-    )
+  return (
+    <button style={{ background: "#ffaaff" }} onClick={props.eventoClick}>
+      {props.texto}
+    </button>
+  );
 }
 
-export default Boton
+export default Boton;

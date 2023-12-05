@@ -18,7 +18,7 @@ function EditarPublicacion({ usuarioLogeado }) {
     const publicacionFetch = await response.json();
     setPublicacion(publicacionFetch);
     if (
-      publicacionFetch.autor !== usuarioLogeado.usuario._id &&
+      publicacionFetch.autor._id !== usuarioLogeado.usuario._id &&
       !usuarioLogeado.usuario.esAdmin
     ) {
       navigate("/usuarios/login", {

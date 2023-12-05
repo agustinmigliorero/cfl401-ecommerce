@@ -17,7 +17,7 @@ function VerCategorias() {
   const contenido = categorias.map((categoria, index) => {
     return (
       <Card
-        key={categoria._id + index}
+        key={`${categoria._id}`}
         titulo={categoria.nombre}
         textoCard={categoria.descripcion}
         textoBoton="Ver publicaciones"

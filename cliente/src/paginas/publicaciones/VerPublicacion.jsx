@@ -79,15 +79,60 @@ function VerPublicacion() {
       : (promedio / publicacion.comentarios.length).toFixed(2);
   }
 
+  function fetchBorrarComentario(idComentario) {
+    let borrar = confirm("Estas seguro de borrar el comentario?");
+    if (borrar) {
+      fetch(`http://localhost:3000/comentarios/${idComentario}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      })
+        .then((res) => {
+          cargarPublicacion();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }
+
   function botonesBorrarYEditarPublicacion() {
     if (usuarioLogeado.usuario) {
-      if (publicacion.autor._id === usuarioLogeado.usuario._id) {
+      if (
+        publicacion.autor._id === usuarioLogeado.usuario._id ||
+        usuarioLogeado.usuario.esAdmin
+      ) {
         return (
           <>
             <Link to={`/publicaciones/editar-publicacion/${publicacion._id}`}>
               <Boton texto="Editar" />
             </Link>
             <Boton eventoClick={fetchBorrarPublicacion} texto="Borrar" />
+          </>
+        );
+      }
+    }
+  }
+
+  function botonesBorrarYEditarComentario(idAutorComentario, idComentario) {
+    if (usuarioLogeado.usuario) {
+      if (
+        idAutorComentario === usuarioLogeado.usuario._id ||
+        usuarioLogeado.usuario.esAdmin
+      ) {
+        return (
+          <>
+            <Link to={`/publicaciones/editar-publicacion/${publicacion._id}`}>
+              <Boton texto="Editar" />
+            </Link>
+            <Boton
+              eventoClick={() => {
+                fetchBorrarComentario(idComentario);
+              }}
+              texto="Borrar"
+            />
           </>
         );
       }
@@ -119,6 +164,10 @@ function VerPublicacion() {
               autor: {comentario.autor.email} <br /> puntuacion:{" "}
               {comentario.puntuacion}
             </i>
+            {botonesBorrarYEditarComentario(
+              comentario.autor._id,
+              comentario._id
+            )}
           </li>
         ))}
       </ul>

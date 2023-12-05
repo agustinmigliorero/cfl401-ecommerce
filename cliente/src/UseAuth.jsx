@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect, useLayoutEffect } from "react";
+import { createContext, useState, useEffect } from "react";
 
 const AuthContext = createContext();
 
@@ -21,15 +21,10 @@ const useAuth = () => {
     setCargando(false);
   }
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     fetchUsuarioLogeado();
     console.log(usuarioLogeado);
   }, []);
-
-  // useEffect(() => {
-  //   fetchUsuarioLogeado();
-  //   console.log(usuarioLogeado);
-  // }, []);
 
   return {
     usuarioLogeado,
@@ -53,42 +48,3 @@ const AuthProvider = ({ children }) => {
 };
 
 export { AuthProvider, useAuth };
-
-// import { createContext, useState, useContext, useEffect } from "react";
-
-// const AuthContext = createContext({});
-
-// const useAuth = () => {
-//   const auth = useContext(AuthContext);
-//   return auth;
-// };
-
-// const AuthProvider = ({ children }) => {
-//   const [usuarioLogeado, setUsuarioLogeado] = useState({ logeado: false });
-
-//   async function fetchUsuarioLogeado() {
-//     const respuesta = await fetch(
-//       "http://localhost:3000/usuarios/usuario-logeado",
-//       {
-//         credentials: "include",
-//       }
-//     );
-//     const usuario = await respuesta.json();
-//     setUsuarioLogeado(usuario);
-//   }
-
-//   //   fetchUsuarioLogeado();
-
-//   useEffect(() => {
-//     fetchUsuarioLogeado();
-//     console.log(usuarioLogeado);
-//   }, []);
-
-//   return (
-//     <AuthContext.Provider value={{ usuarioLogeado, setUsuarioLogeado }}>
-//       {children}
-//     </AuthContext.Provider>
-//   );
-// };
-
-// export { AuthProvider, useAuth };
