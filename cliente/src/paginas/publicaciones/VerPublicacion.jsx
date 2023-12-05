@@ -9,7 +9,7 @@ function VerPublicacion() {
   const { idPublicacion } = useParams();
   const [publicacion, setPublicacion] = useState({
     autor: {},
-    comentarios: [{ autor: {} }],
+    comentarios: [{ autor: {}, editando: false }],
     categoria: {},
   });
   const { usuarioLogeado } = useAuth();
@@ -19,7 +19,12 @@ function VerPublicacion() {
       `http://localhost:3000/publicaciones/${idPublicacion}`
     );
     const data = await response.json();
-    setPublicacion(data);
+    setPublicacion({
+      ...data,
+      comentarios: data.comentarios.map((comentario) => {
+        return { ...comentario, editando: false };
+      }),
+    });
   }
 
   useEffect(() => {
@@ -79,6 +84,19 @@ function VerPublicacion() {
       : (promedio / publicacion.comentarios.length).toFixed(2);
   }
 
+  function mostrarFormEditarComentario(idComentario) {
+    setPublicacion({
+      ...publicacion,
+      comentarios: publicacion.comentarios.map((comentario) => {
+        if (comentario._id === idComentario) {
+          return { ...comentario, editando: true };
+        } else {
+          return { ...comentario, editando: false };
+        }
+      }),
+    });
+  }
+
   function fetchBorrarComentario(idComentario) {
     let borrar = confirm("Estas seguro de borrar el comentario?");
     if (borrar) {
@@ -124,9 +142,10 @@ function VerPublicacion() {
       ) {
         return (
           <>
-            <Link to={`/publicaciones/editar-publicacion/${publicacion._id}`}>
-              <Boton texto="Editar" />
-            </Link>
+            <Boton
+              texto="Editar"
+              eventoClick={() => mostrarFormEditarComentario(idComentario)}
+            />
             <Boton
               eventoClick={() => {
                 fetchBorrarComentario(idComentario);
@@ -159,7 +178,12 @@ function VerPublicacion() {
       <ul>
         {publicacion.comentarios.map((comentario) => (
           <li key={`${comentario._id}`}>
-            {comentario.texto} <br />{" "}
+            {comentario.editando ? (
+              <input value={comentario.texto} />
+            ) : (
+              comentario.texto
+            )}{" "}
+            <br />
             <i>
               autor: {comentario.autor.email} <br /> puntuacion:{" "}
               {comentario.puntuacion}
