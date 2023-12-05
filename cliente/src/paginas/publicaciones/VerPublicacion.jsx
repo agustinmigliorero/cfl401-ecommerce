@@ -13,6 +13,8 @@ function VerPublicacion() {
     categoria: {},
   });
   const { usuarioLogeado } = useAuth();
+  const [textoComentario, setTextoComentario] = useState("");
+  const [puntuacionComentario, setPuntuacionComentario] = useState(5);
 
   async function cargarPublicacion() {
     const response = await fetch(
@@ -84,17 +86,86 @@ function VerPublicacion() {
       : (promedio / publicacion.comentarios.length).toFixed(2);
   }
 
-  function mostrarFormEditarComentario(idComentario) {
+  function mostrarFormEditarComentario(idComentario, mostrar = true) {
     setPublicacion({
       ...publicacion,
       comentarios: publicacion.comentarios.map((comentario) => {
-        if (comentario._id === idComentario) {
+        if (comentario._id === idComentario && mostrar) {
+          setTextoComentario(comentario.texto);
+          setPuntuacionComentario(comentario.puntuacion);
           return { ...comentario, editando: true };
         } else {
           return { ...comentario, editando: false };
         }
       }),
     });
+  }
+
+  function handleChangeTextoComentario(evento) {
+    setTextoComentario(evento.target.value);
+  }
+
+  function handleChangePuntuacionComentario(evento) {
+    setPuntuacionComentario(evento.target.value);
+  }
+
+  function formEditarComentario(idComentario) {
+    return (
+      <>
+        <textarea
+          type="text"
+          onChange={handleChangeTextoComentario}
+          value={textoComentario}
+          placeholder="Comentario"
+          name="textoComentario"
+          cols="80"
+          rows="6"
+        ></textarea>
+        <br />
+        <input
+          name="puntuacion"
+          type="number"
+          min={1}
+          max={5}
+          onChange={handleChangePuntuacionComentario}
+          value={puntuacionComentario}
+        />
+        <br />
+        <Boton
+          texto="Guardar"
+          eventoClick={() => {
+            fetchEditarComentario(idComentario);
+          }}
+        />
+        <Boton
+          texto="Cancelar"
+          eventoClick={() => {
+            mostrarFormEditarComentario(idComentario, false);
+          }}
+        />
+      </>
+    );
+  }
+
+  function fetchEditarComentario(idComentario) {
+    fetch(`http://localhost:3000/comentarios/${idComentario}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        texto: textoComentario,
+        puntuacion: puntuacionComentario,
+      }),
+    })
+      .then((res) => {
+        mostrarFormEditarComentario(idComentario, false);
+        cargarPublicacion();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   function fetchBorrarComentario(idComentario) {
@@ -179,19 +250,21 @@ function VerPublicacion() {
         {publicacion.comentarios.map((comentario) => (
           <li key={`${comentario._id}`}>
             {comentario.editando ? (
-              <input value={comentario.texto} />
+              formEditarComentario(comentario._id)
             ) : (
-              comentario.texto
+              <>
+                {comentario.texto}
+                <br />
+                <i>
+                  autor: {comentario.autor.email} <br /> puntuacion:{" "}
+                  {comentario.puntuacion}
+                </i>
+                {botonesBorrarYEditarComentario(
+                  comentario.autor._id,
+                  comentario._id
+                )}
+              </>
             )}{" "}
-            <br />
-            <i>
-              autor: {comentario.autor.email} <br /> puntuacion:{" "}
-              {comentario.puntuacion}
-            </i>
-            {botonesBorrarYEditarComentario(
-              comentario.autor._id,
-              comentario._id
-            )}
           </li>
         ))}
       </ul>
