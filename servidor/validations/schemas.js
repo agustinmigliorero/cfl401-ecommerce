@@ -13,7 +13,7 @@ const publicacionSchema = Joi.object({
   autor: Joi.string().required(),
   titulo: Joi.string().required(),
   texto: Joi.string().required(),
-  categorias: Joi.array(),
+  categoria: Joi.string().required(),
   comentarios: Joi.array(),
 });
 
@@ -21,11 +21,12 @@ const comentarioSchema = Joi.object({
   autor: Joi.string().required(),
   texto: Joi.string().required(),
   publicacion: Joi.string().required(),
-  puntuacion: Joi.number(),
+  puntuacion: Joi.number().required(),
 });
 
 const categoriaSchema = Joi.object({
   nombre: Joi.string().required(),
+  descripcion: Joi.string().required(),
   publicaciones: Joi.array(),
 });
 

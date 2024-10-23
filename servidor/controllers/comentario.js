@@ -3,8 +3,8 @@ const Usuario = require("../models/usuario");
 const Publicacion = require("../models/publicacion");
 
 const crearComentario = async (req, res) => {
-  const { autor, texto, publicacion } = req.body;
-  const comentario = new Comentario({ autor, texto, publicacion });
+  const { autor, texto, publicacion, puntuacion } = req.body;
+  const comentario = new Comentario({ autor, texto, publicacion, puntuacion });
   await Publicacion.findByIdAndUpdate(publicacion, {
     $push: { comentarios: comentario._id },
   });

@@ -8,28 +8,31 @@ const verCategorias = async (req, res) => {
 
 const verCategoria = async (req, res) => {
   const { id } = req.params;
-  const categoria = findById(id).populate("publicaciones");
+  const categoria = await Categoria.findById(id).populate("publicaciones");
   res.json(categoria);
 };
 
 const crearCategoria = async (req, res) => {
-  const { nombre } = req.body;
-  const categoria = new Categoria({ nombre });
+  const { nombre, descripcion } = req.body;
+  const categoria = new Categoria({ nombre, descripcion });
   await categoria.save();
   res.json({ msg: "Categoria creada", categoria });
 };
 
 const editarCategoria = async (req, res) => {
   const { id } = req.params;
-  const { nombre } = req.body;
-  const categoria = await Categoria.findByIdAndUpdate(id, { nombre });
+  const { nombre, descripcion } = req.body;
+  const categoria = await Categoria.findByIdAndUpdate(id, {
+    nombre,
+    descripcion,
+  });
   res.json({ msg: "Categoria actualizada", categoria });
 };
 
 const eliminarCategoria = async (req, res) => {
   const { id } = req.params;
   const categoria = await Categoria.findByIdAndDelete(id);
-  await Publicacion.updateMany({ categoria: id }, { $pull: { categoria: id } });
+  await Publicacion.deleteMany({ categoria: id });
   res.json({ msg: "Categoria eliminada", categoria });
 };
 
